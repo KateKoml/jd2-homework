@@ -31,7 +31,7 @@ public class FrontController extends HttpServlet {
     }
 
     private void doRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/hello");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/welcome");
         if (dispatcher != null) {
             System.out.println("Forward will be done!");
             System.out.println("We are processing user request");
