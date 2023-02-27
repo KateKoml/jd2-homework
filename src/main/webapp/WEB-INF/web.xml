@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
    http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-<!--
+
     <servlet>
         <servlet-name>MainServlet</servlet-name>
         <servlet-class>com.komleva.controller.FrontController</servlet-class>
@@ -12,7 +12,6 @@
         <servlet-name>MainServlet</servlet-name>
         <url-pattern>/FrontController</url-pattern>
     </servlet-mapping>
-    -->
 
     <!--    localhost:8080/application/FrontController-->
     <!--    https://komleva.com/application/FrontController-->
@@ -46,7 +45,7 @@
         <url-pattern>/get</url-pattern>
     </servlet-mapping>
 
-   <!-- <listener>
+    <listener>
         <listener-class>com.komleva.listeners.StartupCustomListener</listener-class>
     </listener>
 
@@ -59,7 +58,6 @@
         <filter-name>CharsetFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
--->
     <!--    localhost:8080/application/bye-->
     <session-config>
         <session-timeout>10</session-timeout>
