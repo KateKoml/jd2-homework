@@ -15,7 +15,12 @@ public class UserServiceImpl implements UserService{
 //    @Inject //JSR-330
 //    @Named("userRepositoryImpl")
 //    @Named("userRepositoryImpl")
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
+
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public User findOne(Long id) {

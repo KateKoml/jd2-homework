@@ -1,6 +1,7 @@
 package com.komleva.controller;
 
 import com.komleva.domain.User;
+import com.komleva.repository.UserRepositoryImpl;
 import com.komleva.service.UserService;
 import com.komleva.service.UserServiceImpl;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -19,8 +20,7 @@ public class FrontController extends HttpServlet {
     //    public FrontController() {
 //        super();
 //    }
-    private final UserService userService =new AnnotationConfigApplicationContext("com.komleva")
-            .getBean("userServiceImpl", UserService.class);
+    private final UserService userService = new UserServiceImpl(new UserRepositoryImpl());
 
 
     @Override
