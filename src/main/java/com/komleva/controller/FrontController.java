@@ -3,6 +3,7 @@ package com.komleva.controller;
 import com.komleva.domain.User;
 import com.komleva.service.UserService;
 import com.komleva.service.UserServiceImpl;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,7 +19,9 @@ public class FrontController extends HttpServlet {
     //    public FrontController() {
 //        super();
 //    }
-    private final UserService userService = new UserServiceImpl();
+    private final UserService userService =new AnnotationConfigApplicationContext("com.komleva")
+            .getBean("userServiceImpl", UserService.class);
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

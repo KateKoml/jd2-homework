@@ -15,7 +15,6 @@ public class UserServiceImpl implements UserService{
 //    @Inject //JSR-330
 //    @Named("userRepositoryImpl")
 //    @Named("userRepositoryImpl")
-
     private UserRepository userRepository;
 
     @Override
