@@ -24,7 +24,6 @@ public class UserRepositoryImpl implements UserRepository {
     private static final String NAME = "name";
     private static final String SURNAME = "surname";
     private static final String GENDER = "gender";
-    private static final String ADDRESS_ID = "address_id";
     private static final String E_MAIL = "e_mail";
     private static final String PHONE = "phone";
     private static final String LOGIN = "login";
@@ -73,7 +72,6 @@ public class UserRepositoryImpl implements UserRepository {
             user.setName(rs.getString(NAME));
             user.setSurname(rs.getString(SURNAME));
             user.setGender(rs.getString(GENDER));
-            user.setAddressId(rs.getLong(ADDRESS_ID));
             user.setEmail(rs.getString(E_MAIL));
             user.setPhone(rs.getString(PHONE));
             user.setLogin(rs.getString(LOGIN));
@@ -115,8 +113,29 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User create(User object) {
-        return null;
+    public User create(User user) {
+        final String createQuery = "insert into users (name, surname, gender, e_mail, phone, login, password, user_ip, hash, created, changed)" +
+                "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        registerDriver();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(createQuery)) {
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setString(2, user.getSurname());
+            preparedStatement.setString(3, user.getGender());
+            preparedStatement.setString(4, user.getEmail());
+            preparedStatement.setString(5, user.getPhone());
+            preparedStatement.setString(6, user.getLogin());
+            preparedStatement.setString(7, user.getPassword());
+            preparedStatement.setString(8, user.getUserIp());
+            preparedStatement.setString(9, user.getHash());
+            preparedStatement.setTimestamp(10, user.getCreated());
+            preparedStatement.setTimestamp(11, user.getChanged());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new RuntimeException("SQL Issues!");
+        }
+        return user;
     }
 
     @Override
