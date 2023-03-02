@@ -51,19 +51,17 @@ public class UserRepositoryImpl implements UserRepository {
              Statement statement = connection.createStatement();
              ResultSet rs = statement.executeQuery(findAllQuery)
         ) {
-
             while (rs.next()) {
                 result.add(parseResultSet(rs));
             }
-            return result;
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             throw new RuntimeException("SQL Issues!");
         }
+        return result;
     }
 
     private User parseResultSet(ResultSet rs) {
-
         User user;
 
         try {
@@ -81,7 +79,6 @@ public class UserRepositoryImpl implements UserRepository {
             user.setCreated(rs.getTimestamp(CREATED));
             user.setChanged(rs.getTimestamp(CHANGED));
             user.setDeleted(rs.getBoolean(IS_DELETED));
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -109,10 +106,11 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findOne(Long id) {
-        return null;
+        List<User> users = findAll();
+        return users.stream().filter(user -> user.getId() == id).findAny().orElse(null);
     }
 
-    @Override
+        @Override
     public User create(User user) {
         final String createQuery = "insert into users (name, surname, gender, e_mail, phone, login, password, user_ip, hash, created, changed)" +
                 "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -139,13 +137,41 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User update(User object) {
-        return null;
+    public User update(User user) {
+        final String updateQuery = "update users set name = ?, surname = ?, gender = ?, e_mail = ?, phone = ?, " +
+                "password = ?, changed = ?, is_deleted = ? where id = ?";
+        registerDriver();
+        try (Connection connection = getConnection();
+             PreparedStatement statements = connection.prepareStatement(updateQuery)) {
+            statements.setString(1, user.getName());
+            statements.setString(2, user.getSurname());
+            statements.setString(3, user.getGender());
+            statements.setString(4, user.getEmail());
+            statements.setString(5, user.getPhone());
+            statements.setString(6, user.getPassword());
+            statements.setTimestamp(7, user.getChanged());
+            statements.setBoolean(8, user.getIsDeleted());
+            statements.setLong(9, user.getId());
+            statements.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new RuntimeException("SQL Issues!");
+        }
+        return user;
     }
 
     @Override
     public void delete(Long id) {
-
+        final String deleteQuery = "update users set is_deleted = true where id = ?";
+        registerDriver();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new RuntimeException("SQL Issues!");
+        }
     }
 
     @Override
