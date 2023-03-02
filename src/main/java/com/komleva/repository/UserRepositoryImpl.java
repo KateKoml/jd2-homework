@@ -74,7 +74,7 @@ public class UserRepositoryImpl implements UserRepository {
             user.setSurname(rs.getString(SURNAME));
             user.setGender(rs.getString(GENDER));
             user.setAddressId(rs.getLong(ADDRESS_ID));
-            user.setEMail(rs.getString(E_MAIL));
+            user.setEmail(rs.getString(E_MAIL));
             user.setPhone(rs.getString(PHONE));
             user.setLogin(rs.getString(LOGIN));
             user.setPassword(rs.getString(PASSWORD));

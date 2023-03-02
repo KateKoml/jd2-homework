@@ -9,7 +9,7 @@ public class User {
     private String surname;
     private String gender;
     private Long addressId;
-    private String eMail;
+    private String email;
     private String phone;
     private String login;
     private String password;
@@ -22,13 +22,13 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String name, String surname, String gender, Long addressId, String eMail, String phone, String login, String password, String userIp, String hash, Timestamp created, Timestamp changed, Boolean isDeleted) {
+    public User(Long id, String name, String surname, String gender, Long addressId, String email, String phone, String login, String password, String userIp, String hash, Timestamp created, Timestamp changed, Boolean isDeleted) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.gender = gender;
         this.addressId = addressId;
-        this.eMail = eMail;
+        this.email = email;
         this.phone = phone;
         this.login = login;
         this.password = password;
@@ -79,12 +79,12 @@ public class User {
         this.addressId = addressId;
     }
 
-    public String getEMail() {
-        return eMail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEMail(String eMail) {
-        this.eMail = eMail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPhone() {
@@ -143,7 +143,7 @@ public class User {
         this.changed = changed;
     }
 
-    public Boolean isDeleted() {
+    public Boolean getIsDeleted() {
         return isDeleted;
     }
 
@@ -156,12 +156,12 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id.equals(user.id) && name.equals(user.name) && surname.equals(user.surname) && gender.equals(user.gender) && Objects.equals(addressId, user.addressId) && eMail.equals(user.eMail) && phone.equals(user.phone) && login.equals(user.login) && password.equals(user.password) && userIp.equals(user.userIp) && hash.equals(user.hash) && created.equals(user.created) && changed.equals(user.changed) && isDeleted.equals(user.isDeleted);
+        return id.equals(user.id) && name.equals(user.name) && surname.equals(user.surname) && gender.equals(user.gender) && Objects.equals(addressId, user.addressId) && email.equals(user.email) && phone.equals(user.phone) && login.equals(user.login) && password.equals(user.password) && userIp.equals(user.userIp) && hash.equals(user.hash) && created.equals(user.created) && changed.equals(user.changed) && isDeleted.equals(user.isDeleted);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, surname, gender, addressId, eMail, phone, login, password, userIp, hash, created, changed, isDeleted);
+        return Objects.hash(id, name, surname, gender, addressId, email, phone, login, password, userIp, hash, created, changed, isDeleted);
     }
 
     @Override
@@ -172,7 +172,7 @@ public class User {
                 ", surname='" + surname + '\'' +
                 ", gender='" + gender + '\'' +
                 ", addressId=" + addressId +
-                ", eMail='" + eMail + '\'' +
+                ", eMail='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +

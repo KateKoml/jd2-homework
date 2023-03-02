@@ -43,14 +43,14 @@ ${userName}
                 <td>${user.surname}</td>
                 <td>${user.gender}</td>
                 <td>${user.addressId}</td>
-                <td>${user.eMail}</td>
+                <td>${user.email}</td>
                 <td>${user.phone}</td>
                 <td>${user.login}</td>
                 <td>${user.password}</td>
                 <td>${user.userIp}</td>
                 <td>${user.hash}</td>
                 <td>${user.created}</td>
-                <td>${user.change}</td>
+                <td>${user.changed}</td>
                 <td>
                     <button>Edit</button>
                 </td>
