@@ -202,10 +202,6 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
-    @Override
-    public void searchUser() {
-
-    }
 
     @Override
     public List<User> findAllFemales() {

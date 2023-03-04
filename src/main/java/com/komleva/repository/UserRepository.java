@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface UserRepository extends CRUDRepository<Long, User> {
 
-    void searchUser();
-
     public List<User> findAllFemales();
 
     public List<User> findAllMales();
