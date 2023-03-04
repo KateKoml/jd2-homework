@@ -202,7 +202,6 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
-
     @Override
     public List<User> findAllFemales() {
         List<User> users = findAll();

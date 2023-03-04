@@ -18,7 +18,6 @@ public class UserAggServiceImpl implements UserAggregationService {
     public UserAggServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-//  private final UserService userService = new UserServiceImpl();
 
     @Override
     public Map<String, String> getUsersAndPhones() {

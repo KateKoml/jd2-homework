@@ -36,11 +36,6 @@ public class UserSecondRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void searchUser() {
-
-    }
-
-    @Override
     public List<User> findAllFemales() {
         return null;
     }
