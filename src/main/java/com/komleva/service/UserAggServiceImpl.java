@@ -11,20 +11,18 @@ import java.util.Map;
 public class UserAggServiceImpl implements UserAggregationService {
 
     private final UserRepository userRepository = new UserRepositoryImpl();
-//    private final UserService userService = new UserServiceImpl();
+//  private final UserService userService = new UserServiceImpl();
 
     @Override
-    public Map<String, Object> getStats() {
+    public Map<String, String> getUsersAndPhones() {
 
         List<User> users = userRepository.findAll();
-        User one = userRepository.findOne(2L);
-        userRepository.searchUser();
-
-        Map<String, Object> resultMap = new HashMap<>();
-
-        resultMap.put("allUsers", users);
-        resultMap.put("oneUser", one);
-
+        Map<String, String> resultMap = new HashMap<>();
+        for (User user : users) {
+            String phone = user.getPhone();
+            String userName = userRepository.getNameByPhone(phone);
+            resultMap.put(userName, phone);
+        }
         return resultMap;
     }
 }

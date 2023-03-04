@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     //@Autowired
 //    @Qualifier("userSecondRepositoryImpl")
 
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User create(User object) {
         /*Validation layer*/
-        if (object.getPhone().length() > 12) {
+        if (!object.getPhone().startsWith("375")) {
             throw new RuntimeException("Wrong phone!");
         }
 
@@ -45,11 +45,11 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User update(User object) {
-        return null;
+        return userRepository.update(object);
     }
 
     @Override
     public void delete(Long id) {
-
+        userRepository.delete(id);
     }
 }

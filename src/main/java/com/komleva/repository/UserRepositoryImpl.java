@@ -5,8 +5,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Repository
 //bean id=userRepositoryImpl   class=UserRepositoryImpl
@@ -110,7 +113,7 @@ public class UserRepositoryImpl implements UserRepository {
         return users.stream().filter(user -> user.getId() == id).findAny().orElse(null);
     }
 
-        @Override
+    @Override
     public User create(User user) {
         final String createQuery = "insert into users (name, surname, gender, e_mail, phone, login, password, user_ip, hash, created, changed)" +
                 "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -162,10 +165,33 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void delete(Long id) {
-        final String deleteQuery = "update users set is_deleted = true where id = ?";
+        User thisUser = findOne(id);
+
+        long millisecondsBetweenTwoDates = thisUser.getChanged().getTime() - thisUser.getCreated().getTime();
+        int daysBetweenDates = (int) (millisecondsBetweenTwoDates / (24 * 60 * 60 * 1000));
+        if (daysBetweenDates >= 30) {
+            hardDelete(id);
+        } else {
+
+            final String deleteQuery = "update users set changed = ?, is_deleted = true where id = ?";
+            registerDriver();
+            try (Connection connection = getConnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+                preparedStatement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+                preparedStatement.setLong(2, id);
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                System.err.println(e.getMessage());
+                throw new RuntimeException("SQL Issues!");
+            }
+        }
+    }
+
+    public void hardDelete(Long id) {
+        final String hardDeleteQuery = "delete from users where id = ?";
         registerDriver();
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(hardDeleteQuery)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -177,5 +203,24 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void searchUser() {
 
+    }
+
+    @Override
+    public List<User> findAllFemales() {
+        List<User> users = findAll();
+        return users.stream().filter(user -> user.getGender().equals("F")).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<User> findAllMales() {
+        List<User> users = findAll();
+        return users.stream().filter(user -> user.getGender().equals("M")).collect(Collectors.toList());
+    }
+
+    @Override
+    public String getNameByPhone(String phoneNumber) {
+        List<User> users = findAll();
+        User result = users.stream().filter(user -> Objects.equals(user.getPhone(), phoneNumber)).findAny().orElse(null);
+        return Objects.requireNonNull(result).getName() + " " + result.getSurname();
     }
 }

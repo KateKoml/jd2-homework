@@ -39,4 +39,19 @@ public class UserSecondRepositoryImpl implements UserRepository {
     public void searchUser() {
 
     }
+
+    @Override
+    public List<User> findAllFemales() {
+        return null;
+    }
+
+    @Override
+    public List<User> findAllMales() {
+        return null;
+    }
+
+    @Override
+    public String getNameByPhone(String phoneNumber) {
+        return null;
+    }
 }

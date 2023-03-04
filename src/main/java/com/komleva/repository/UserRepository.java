@@ -2,7 +2,15 @@ package com.komleva.repository;
 
 import com.komleva.domain.User;
 
-public interface UserRepository extends CRUDRepository <Long, User> {
+import java.util.List;
+
+public interface UserRepository extends CRUDRepository<Long, User> {
 
     void searchUser();
+
+    public List<User> findAllFemales();
+
+    public List<User> findAllMales();
+
+    public String getNameByPhone(String phoneNumber);
 }
