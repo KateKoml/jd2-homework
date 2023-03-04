@@ -13,7 +13,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         UserRepository userRepository = new UserRepositoryImpl();
-        UserAggregationService userAggregationService = new UserAggServiceImpl();
+        UserAggregationService userAggregationService = new UserAggServiceImpl(userRepository);
 
         /*
         System.out.println("\n Method create");
