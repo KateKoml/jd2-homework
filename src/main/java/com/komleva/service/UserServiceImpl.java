@@ -9,18 +9,12 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-    //@Autowired
-//    @Qualifier("userSecondRepositoryImpl")
+    @Autowired
+    private UserRepository userRepository;
 
-//    @Inject //JSR-330
-//    @Named("userRepositoryImpl")
-//    @Named("userRepositoryImpl")
-
-    private final UserRepository userRepository;
-
-    public UserServiceImpl(UserRepository userRepository) {
+    /*public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-    }
+    }*/
 
     @Override
     public User findOne(Long id) {

@@ -20,7 +20,7 @@ public class FrontController extends HttpServlet {
     //    public FrontController() {
 //        super();
 //    }
-    private final UserService userService = new UserServiceImpl(new UserRepositoryImpl());
+    private final UserService userService = new UserServiceImpl();
 
 
     @Override

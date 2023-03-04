@@ -1,6 +1,7 @@
 package com.komleva.repository;
 
 import com.komleva.domain.User;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
@@ -12,8 +13,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Repository
-//bean id=userRepositoryImpl   class=UserRepositoryImpl
-//@Component
+@RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
     public static final String POSTRGES_DRIVER_NAME = "org.postgresql.Driver";
@@ -81,7 +81,7 @@ public class UserRepositoryImpl implements UserRepository {
             user.setHash(rs.getString(HASH));
             user.setCreated(rs.getTimestamp(CREATED));
             user.setChanged(rs.getTimestamp(CHANGED));
-            user.setDeleted(rs.getBoolean(IS_DELETED));
+            user.setIsDeleted(rs.getBoolean(IS_DELETED));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
