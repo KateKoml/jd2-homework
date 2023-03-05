@@ -1,5 +1,6 @@
 package com.komleva.repository;
 
+import com.komleva.configuration.DatabaseProperties;
 import com.komleva.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -18,12 +20,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
-    public static final String POSTRGES_DRIVER_NAME = "org.postgresql.Driver";
+    /*public static final String POSTRGES_DRIVER_NAME = "org.postgresql.Driver";
     public static final String DATABASE_URL = "jdbc:postgresql://localhost:";
     public static final int DATABASE_PORT = 5432;
     public static final String DATABASE_NAME = "/trading_platform";
     public static final String DATABASE_LOGIN = "postgres";
-    public static final String DATABASE_PASSWORD = "postgres";
+    public static final String DATABASE_PASSWORD = "postgres";*/
 
     private static final String ID = "id";
     private static final String NAME = "name";
@@ -38,7 +40,7 @@ public class UserRepositoryImpl implements UserRepository {
     private static final String CREATED = "created";
     private static final String CHANGED = "changed";
     private static final String IS_DELETED = "is_deleted";
-
+    private final DatabaseProperties properties;
 
     @Override
     public List<User> findAll() {
@@ -49,7 +51,7 @@ public class UserRepositoryImpl implements UserRepository {
 
         final String findAllQuery = "select * from users order by id desc";
 
-        List<User> result = new ArrayList<>();
+        List<User> result = new LinkedList<>();
 
         registerDriver();
         try (Connection connection = getConnection();
@@ -93,7 +95,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     private void registerDriver() {
         try {
-            Class.forName(POSTRGES_DRIVER_NAME);
+            Class.forName(properties.getDriverName());
         } catch (ClassNotFoundException e) {
             System.err.println("JDBC Driver Cannot be loaded!");
             throw new RuntimeException("JDBC Driver Cannot be loaded!");
@@ -101,9 +103,9 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     private Connection getConnection() {
-        String jdbcURL = StringUtils.join(DATABASE_URL, DATABASE_PORT, DATABASE_NAME);
+        String jdbcURL = StringUtils.join(properties.getUrl(), properties.getPort(), properties.getName());
         try {
-            return DriverManager.getConnection(jdbcURL, DATABASE_LOGIN, DATABASE_PASSWORD);
+            return DriverManager.getConnection(jdbcURL, properties.getLogin(), properties.getPassword());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

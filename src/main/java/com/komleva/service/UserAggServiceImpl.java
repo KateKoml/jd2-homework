@@ -1,5 +1,6 @@
 package com.komleva.service;
 
+import com.komleva.configuration.DatabaseProperties;
 import com.komleva.domain.User;
 import com.komleva.repository.UserRepository;
 import com.komleva.repository.UserRepositoryImpl;
@@ -13,7 +14,7 @@ import java.util.Map;
 @Service
 public class UserAggServiceImpl implements UserAggregationService {
 
-    private UserRepository userRepository = new UserRepositoryImpl();
+    private UserRepository userRepository;
     @Autowired
     public UserAggServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;

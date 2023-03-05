@@ -1,5 +1,6 @@
 package com.komleva;
 
+import com.komleva.configuration.DatabaseProperties;
 import com.komleva.domain.User;
 import com.komleva.repository.UserRepository;
 import com.komleva.repository.UserRepositoryImpl;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        UserRepository userRepository = new UserRepositoryImpl();
+        UserRepository userRepository = new UserRepositoryImpl(new DatabaseProperties());
         UserAggregationService userAggregationService = new UserAggServiceImpl(userRepository);
 
         /*
@@ -22,12 +23,12 @@ public class Main {
                 "jfdl4598349834ntfk5", Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()));
         System.out.println(userRepository.create(newUser));*/
 
-        /*
+
         System.out.println("\n Method findAll");
         List<User> all = userRepository.findAll();
         for (User user : all) {
             System.out.println(user);
-        }*/
+        }
 
         /*
         System.out.println("\n Method delete");
@@ -44,13 +45,13 @@ public class Main {
         System.out.println("\n Method findOne");
         System.out.println(userRepository.findOne(1L));*/
 
-        /*
-        System.out.println("\n Methods findAllFemales, findAllMales, getNameByPhone");
+
+       /* System.out.println("\n Methods findAllFemales, findAllMales, getNameByPhone");
         System.out.println(userRepository.findAllFemales());
         System.out.println(userRepository.findAllMales());
-        System.out.println(userRepository.getNameByPhone("375295905041"));*/
+        System.out.println(userRepository.getNameByPhone("375295905041"));
 
         System.out.println("\n Method getUsersAndPhones");
-        System.out.println(userAggregationService.getUsersAndPhones());
+        System.out.println(userAggregationService.getUsersAndPhones());*/
     }
 }

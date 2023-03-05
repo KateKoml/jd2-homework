@@ -17,6 +17,7 @@ public class SpringTest {
         UserAggregationService userAggregationService = applicationContext.getBean("userAggServiceImpl", UserAggregationService.class);
 
         System.out.println(userRepository.findAll());
+        System.out.println(userRepository.findAllFemales());
         System.out.println(userService.findAll());
         System.out.println(userAggregationService.getUsersAndPhones());
     }
