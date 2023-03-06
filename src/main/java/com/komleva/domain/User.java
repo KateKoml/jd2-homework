@@ -1,0 +1,50 @@
+package com.komleva.domain;
+
+import lombok.*;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.sql.Timestamp;
+import java.util.Objects;
+
+
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+public class User {
+    private Long id;
+    private String name;
+    private String surname;
+    private String gender;
+    private Long addressId;
+    private String email;
+    private String phone;
+    private String login;
+    private String password;
+    private String userIp;
+    private String hash;
+    private Timestamp created;
+    private Timestamp changed;
+    private Boolean isDeleted;
+
+    public User(String name, String surname, String gender,  String email, String phone, String login, String password, String userIp, String hash, Timestamp created, Timestamp changed) {
+        this.name = name;
+        this.surname = surname;
+        this.gender = gender;
+        this.email = email;
+        this.phone = phone;
+        this.login = login;
+        this.password = password;
+        this.userIp = userIp;
+        this.hash = hash;
+        this.created = created;
+        this.changed = changed;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    }
+}
