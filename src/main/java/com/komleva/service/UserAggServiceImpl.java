@@ -14,8 +14,9 @@ import java.util.Map;
 @Service
 public class UserAggServiceImpl implements UserAggregationService {
 
-    private UserRepository userRepository;
     @Autowired
+    private UserRepository userRepository;
+
     public UserAggServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

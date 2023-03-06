@@ -44,14 +44,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> findAll() {
-
-        /*
-         * 1) Driver Manager - getting connection from DB
-         * */
-
         final String findAllQuery = "select * from users order by id desc";
 
-        List<User> result = new LinkedList<>();
+        List<User> result = new ArrayList<>();
 
         registerDriver();
         try (Connection connection = getConnection();
@@ -113,8 +108,22 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findOne(Long id) {
-        List<User> users = findAll();
-        return users.stream().filter(user -> user.getId() == id).findAny().orElse(null);
+        /*List<User> users = findAll();
+        return users.stream().filter(user -> user.getId() == id).findAny().orElse(null);*/
+        final String findOneQuery = "select * from users where id = ?";
+        registerDriver();
+        List<User> list = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(findOneQuery)) {
+            preparedStatement.setLong(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+            while(rs.next()) {
+                list.add(parseResultSet(rs));
+            }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+        }
+        return list.size() == 1 ? list.get(0) : null;
     }
 
     @Override
@@ -206,20 +215,71 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> findAllFemales() {
-        List<User> users = findAll();
-        return users.stream().filter(user -> user.getGender().equals("F")).collect(Collectors.toList());
+        final String findAllFemalesQuery = "select * from users where gender = 'F'";
+
+        List<User> women = new ArrayList<>();
+
+        registerDriver();
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery(findAllFemalesQuery)
+        ) {
+            while (rs.next()) {
+                women.add(parseResultSet(rs));
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new RuntimeException("SQL Issues!");
+        }
+        return women;
+        /*List<User> users = findAll();
+        return users.stream().filter(user -> user.getGender().equals("F")).collect(Collectors.toList());*/
     }
 
     @Override
     public List<User> findAllMales() {
-        List<User> users = findAll();
-        return users.stream().filter(user -> user.getGender().equals("M")).collect(Collectors.toList());
+        final String findAllMalesQuery = "select * from users where gender = 'M'";
+
+        List<User> men = new ArrayList<>();
+
+        registerDriver();
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery(findAllMalesQuery)
+        ) {
+            while (rs.next()) {
+                men.add(parseResultSet(rs));
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new RuntimeException("SQL Issues!");
+        }
+        return men;
+        /*List<User> users = findAll();
+        return users.stream().filter(user -> user.getGender().equals("M")).collect(Collectors.toList());*/
     }
 
     @Override
     public String getNameByPhone(String phoneNumber) {
-        List<User> users = findAll();
+        final String getNameByPhoneQuery = "select * from users where phone = ?";
+
+        List<User> result = new ArrayList<>();
+        registerDriver();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(getNameByPhoneQuery)) {
+            preparedStatement.setString(1, phoneNumber);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                result.add(parseResultSet(rs));
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new RuntimeException("SQL Issues!");
+        }
+        User user = result.stream().findAny().orElse(null);
+        return Objects.requireNonNull(user).getName() + " " + user.getSurname();
+        /*List<User> users = findAll();
         User result = users.stream().filter(user -> Objects.equals(user.getPhone(), phoneNumber)).findAny().orElse(null);
-        return Objects.requireNonNull(result).getName() + " " + result.getSurname();
+        return Objects.requireNonNull(result).getName() + " " + result.getSurname();*/
     }
 }
