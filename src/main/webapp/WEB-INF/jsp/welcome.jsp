@@ -29,8 +29,7 @@ ${userName}
             <td>Phone</td>
             <td>Login</td>
             <td>Password</td>
-            <td>User Ip</td>
-            <td>Hash</td>
+            <td>User IP</td>
             <td>Created</td>
             <td>Changed</td>
             <td>Edit</td>
@@ -47,8 +46,7 @@ ${userName}
                 <td>${user.phone}</td>
                 <td>${user.login}</td>
                 <td>${user.password}</td>
-                <td>${user.userIp}</td>
-                <td>${user.hash}</td>
+                <td>${user.userIP}</td>
                 <td>${user.created}</td>
                 <td>${user.changed}</td>
                 <td>

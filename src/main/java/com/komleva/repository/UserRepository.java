@@ -6,9 +6,7 @@ import java.util.List;
 
 public interface UserRepository extends CRUDRepository<Long, User> {
 
-    public List<User> findAllFemales();
+    public List<User> findAllUsersByGender(String gender);
 
-    public List<User> findAllMales();
-
-    public String getNameByPhone(String phoneNumber);
+    public String getFullNameByPhone(String phoneNumber);
 }

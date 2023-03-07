@@ -1,11 +1,8 @@
 package com.komleva.controller;
 
 import com.komleva.domain.User;
-import com.komleva.repository.UserRepositoryImpl;
 import com.komleva.service.UserService;
-import com.komleva.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 
 import javax.servlet.RequestDispatcher;
@@ -20,10 +17,6 @@ import java.util.stream.Collectors;
 
 @Controller
 public class FrontController extends HttpServlet {
-
-    //    public FrontController() {
-//        super();
-//    }
     @Autowired
     private UserService userService;
 

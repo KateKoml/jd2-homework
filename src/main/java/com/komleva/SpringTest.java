@@ -1,9 +1,13 @@
 package com.komleva;
 
+import com.komleva.domain.User;
 import com.komleva.repository.UserRepository;
 import com.komleva.service.UserAggregationService;
 import com.komleva.service.UserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class SpringTest {
     public static void main(String[] args) {
@@ -16,11 +20,16 @@ public class SpringTest {
         UserService userService = applicationContext.getBean("userServiceImpl", UserService.class);
         UserAggregationService userAggregationService = applicationContext.getBean("userAggServiceImpl", UserAggregationService.class);
 
-        System.out.println(userRepository.findAll());
+        /*System.out.println(userRepository.findAll());*/
+       /* System.out.println(userRepository.findById(2L));*/
         System.out.println(userRepository.findOne(1L));
-        System.out.println(userRepository.findAllFemales());
-        System.out.println(userRepository.getNameByPhone("375295905041"));
+
+        /*User newUser = new User("Artyom", "Grud", "M", "sunshine2000@gmail.com",
+                "375291004583", "piximixy", "hjKhu689", "118.137.26.37");
+        System.out.println(userRepository.create(newUser));*/
+
+        /*System.out.println(userRepository.getFullNameByPhone("375295905041"));
         System.out.println(userService.findAll());
-        System.out.println(userAggregationService.getUsersAndPhones());
+        System.out.println(userAggregationService.getUsersAndPhones());*/
     }
 }

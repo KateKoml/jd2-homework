@@ -24,11 +24,11 @@ public class UserAggServiceImpl implements UserAggregationService {
     @Override
     public Map<String, String> getUsersAndPhones() {
 
-        List<User> users = userRepository.findAll();
+        List<User> users = userRepository.findAll(); //через sql
         Map<String, String> resultMap = new HashMap<>();
         for (User user : users) {
             String phone = user.getPhone();
-            String userName = userRepository.getNameByPhone(phone);
+            String userName = userRepository.getFullNameByPhone(phone);
             resultMap.put(userName, phone);
         }
         return resultMap;

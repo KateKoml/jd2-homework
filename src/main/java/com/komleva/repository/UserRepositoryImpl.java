@@ -7,26 +7,23 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Repository
 @Primary
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
-
-    /*public static final String POSTRGES_DRIVER_NAME = "org.postgresql.Driver";
-    public static final String DATABASE_URL = "jdbc:postgresql://localhost:";
-    public static final int DATABASE_PORT = 5432;
-    public static final String DATABASE_NAME = "/trading_platform";
-    public static final String DATABASE_LOGIN = "postgres";
-    public static final String DATABASE_PASSWORD = "postgres";*/
-
     private static final String ID = "id";
     private static final String NAME = "name";
     private static final String SURNAME = "surname";
@@ -36,7 +33,6 @@ public class UserRepositoryImpl implements UserRepository {
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
     private static final String USER_IP = "user_ip";
-    private static final String HASH = "hash";
     private static final String CREATED = "created";
     private static final String CHANGED = "changed";
     private static final String IS_DELETED = "is_deleted";
@@ -76,8 +72,7 @@ public class UserRepositoryImpl implements UserRepository {
             user.setPhone(rs.getString(PHONE));
             user.setLogin(rs.getString(LOGIN));
             user.setPassword(rs.getString(PASSWORD));
-            user.setUserIp(rs.getString(USER_IP));
-            user.setHash(rs.getString(HASH));
+            user.setUserIP(rs.getString(USER_IP));
             user.setCreated(rs.getTimestamp(CREATED));
             user.setChanged(rs.getTimestamp(CHANGED));
             user.setIsDeleted(rs.getBoolean(IS_DELETED));
@@ -107,9 +102,25 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User findOne(Long id) {
-        /*List<User> users = findAll();
-        return users.stream().filter(user -> user.getId() == id).findAny().orElse(null);*/
+    public Optional<User> findOne(Long id) {
+        final String findOneQuery = "select * from users where id = ?";
+        registerDriver();
+        Optional<User> user = Optional.empty();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(findOneQuery)) {
+            preparedStatement.setLong(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                user = Optional.ofNullable(parseResultSet(rs));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return user;
+    }
+
+    @Override
+    public User findById(Long id) {
         final String findOneQuery = "select * from users where id = ?";
         registerDriver();
         List<User> list = new ArrayList<>();
@@ -117,19 +128,21 @@ public class UserRepositoryImpl implements UserRepository {
              PreparedStatement preparedStatement = connection.prepareStatement(findOneQuery)) {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 list.add(parseResultSet(rs));
             }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return list.size() == 1 ? list.get(0) : null;
     }
 
     @Override
     public User create(User user) {
-        final String createQuery = "insert into users (name, surname, gender, e_mail, phone, login, password, user_ip, hash, created, changed)" +
-                "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        final String createQuery = "insert into users (name, surname, gender, e_mail, phone, login, password, user_ip, created, changed)" +
+                "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        final String findLastIdQuery = "select id from users order by id desc limit 1";
+        Long lastId = 0L;
         registerDriver();
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(createQuery)) {
@@ -140,16 +153,21 @@ public class UserRepositoryImpl implements UserRepository {
             preparedStatement.setString(5, user.getPhone());
             preparedStatement.setString(6, user.getLogin());
             preparedStatement.setString(7, user.getPassword());
-            preparedStatement.setString(8, user.getUserIp());
-            preparedStatement.setString(9, user.getHash());
-            preparedStatement.setTimestamp(10, user.getCreated());
-            preparedStatement.setTimestamp(11, user.getChanged());
+            preparedStatement.setString(8, user.getUserIP());
+            preparedStatement.setTimestamp(9, Timestamp.valueOf(LocalDateTime.now()));
+            preparedStatement.setTimestamp(10, Timestamp.valueOf(LocalDateTime.now()));
             preparedStatement.executeUpdate();
+
+            PreparedStatement ps = connection.prepareStatement(findLastIdQuery);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                lastId = rs.getLong("id");
+            }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             throw new RuntimeException("SQL Issues!");
         }
-        return user;
+        return findById(lastId);
     }
 
     @Override
@@ -178,10 +196,14 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void delete(Long id) {
-        User thisUser = findOne(id);
+        final int HOURS_IN_DAY = 24;
+        final int MIN_IN_HOUR = 60;
+        final int SEC_IN_MIN = 60;
+        final int MILLISEC_IN_SEC = 1000;
+        Optional<User> thisUser = findOne(id);
 
-        long millisecondsBetweenTwoDates = thisUser.getChanged().getTime() - thisUser.getCreated().getTime();
-        int daysBetweenDates = (int) (millisecondsBetweenTwoDates / (24 * 60 * 60 * 1000));
+        /*long millisecondsBetweenTwoDates = thisUser.getChanged().getTime() - thisUser.getCreated().getTime();
+        int daysBetweenDates = (int) (millisecondsBetweenTwoDates / (HOURS_IN_DAY * MIN_IN_HOUR * SEC_IN_MIN * MILLISEC_IN_SEC));
         if (daysBetweenDates >= 30) {
             hardDelete(id);
         } else {
@@ -197,7 +219,7 @@ public class UserRepositoryImpl implements UserRepository {
                 System.err.println(e.getMessage());
                 throw new RuntimeException("SQL Issues!");
             }
-        }
+        }*/
     }
 
     public void hardDelete(Long id) {
@@ -214,53 +236,28 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> findAllFemales() {
-        final String findAllFemalesQuery = "select * from users where gender = 'F'";
+    public List<User> findAllUsersByGender(String gender) {
+        final String findAllUsersByGenderQuery = "select * from users where gender = ?";
 
-        List<User> women = new ArrayList<>();
+        List<User> users = new ArrayList<>();
 
         registerDriver();
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery(findAllFemalesQuery)
+             ResultSet rs = statement.executeQuery(findAllUsersByGenderQuery)
         ) {
             while (rs.next()) {
-                women.add(parseResultSet(rs));
+                users.add(parseResultSet(rs));
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             throw new RuntimeException("SQL Issues!");
         }
-        return women;
-        /*List<User> users = findAll();
-        return users.stream().filter(user -> user.getGender().equals("F")).collect(Collectors.toList());*/
+        return users;
     }
 
     @Override
-    public List<User> findAllMales() {
-        final String findAllMalesQuery = "select * from users where gender = 'M'";
-
-        List<User> men = new ArrayList<>();
-
-        registerDriver();
-        try (Connection connection = getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery(findAllMalesQuery)
-        ) {
-            while (rs.next()) {
-                men.add(parseResultSet(rs));
-            }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-            throw new RuntimeException("SQL Issues!");
-        }
-        return men;
-        /*List<User> users = findAll();
-        return users.stream().filter(user -> user.getGender().equals("M")).collect(Collectors.toList());*/
-    }
-
-    @Override
-    public String getNameByPhone(String phoneNumber) {
+    public String getFullNameByPhone(String phoneNumber) {
         final String getNameByPhoneQuery = "select * from users where phone = ?";
 
         List<User> result = new ArrayList<>();
@@ -276,10 +273,7 @@ public class UserRepositoryImpl implements UserRepository {
             System.err.println(e.getMessage());
             throw new RuntimeException("SQL Issues!");
         }
-        User user = result.stream().findAny().orElse(null);
+        User user = result.stream().findAny().orElse(null); //возвращает эксепшон а не нулл
         return Objects.requireNonNull(user).getName() + " " + user.getSurname();
-        /*List<User> users = findAll();
-        User result = users.stream().filter(user -> Objects.equals(user.getPhone(), phoneNumber)).findAny().orElse(null);
-        return Objects.requireNonNull(result).getName() + " " + result.getSurname();*/
     }
 }

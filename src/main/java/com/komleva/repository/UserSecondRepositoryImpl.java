@@ -1,17 +1,22 @@
 package com.komleva.repository;
 
 import com.komleva.domain.User;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 //@Primary
 public class UserSecondRepositoryImpl implements UserRepository {
 
     @Override
-    public User findOne(Long id) {
+    public Optional<User> findOne(Long id) {
+        return null;
+    }
+
+    @Override
+    public User findById(Long id) {
         return null;
     }
 
@@ -36,17 +41,12 @@ public class UserSecondRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> findAllFemales() {
+    public List<User> findAllUsersByGender(String gender) {
         return null;
     }
 
     @Override
-    public List<User> findAllMales() {
-        return null;
-    }
-
-    @Override
-    public String getNameByPhone(String phoneNumber) {
+    public String getFullNameByPhone(String phoneNumber) {
         return null;
     }
 }
