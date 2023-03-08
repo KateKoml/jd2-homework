@@ -1,5 +1,7 @@
 package com.komleva.repository;
 
+import com.komleva.domain.User;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -16,5 +18,5 @@ public interface CRUDRepository<K, T> {
 
     T update(T object);
 
-    void delete(K id);
+    Optional<T> delete(K id);
 }

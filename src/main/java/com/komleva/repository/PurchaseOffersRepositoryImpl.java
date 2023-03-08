@@ -1,6 +1,7 @@
 package com.komleva.repository;
 
 import com.komleva.domain.PurchaseOffer;
+import com.komleva.domain.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +33,7 @@ public class PurchaseOffersRepositoryImpl implements PurchaseOffersRepository {
     }
 
     @Override
-    public void delete(Long id) {
-
+    public Optional<PurchaseOffer> delete(Long id) {
+        return null;
     }
 }

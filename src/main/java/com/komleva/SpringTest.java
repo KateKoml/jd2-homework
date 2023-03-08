@@ -22,8 +22,8 @@ public class SpringTest {
 
         /*System.out.println(userRepository.findAll());*/
        /* System.out.println(userRepository.findById(2L));*/
-        System.out.println(userRepository.findOne(1L));
-
+        /*System.out.println(userRepository.findOne(1L));*/
+        System.out.println(userRepository.delete(12L));
         /*User newUser = new User("Artyom", "Grud", "M", "sunshine2000@gmail.com",
                 "375291004583", "piximixy", "hjKhu689", "118.137.26.37");
         System.out.println(userRepository.create(newUser));*/

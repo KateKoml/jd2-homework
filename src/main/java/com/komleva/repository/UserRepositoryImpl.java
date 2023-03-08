@@ -195,19 +195,18 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void delete(Long id) {
+    public Optional<User> delete(Long id) {
         final int HOURS_IN_DAY = 24;
         final int MIN_IN_HOUR = 60;
         final int SEC_IN_MIN = 60;
         final int MILLISEC_IN_SEC = 1000;
         Optional<User> thisUser = findOne(id);
 
-        /*long millisecondsBetweenTwoDates = thisUser.getChanged().getTime() - thisUser.getCreated().getTime();
+        long millisecondsBetweenTwoDates = thisUser.get().getChanged().getTime() - thisUser.get().getCreated().getTime();
         int daysBetweenDates = (int) (millisecondsBetweenTwoDates / (HOURS_IN_DAY * MIN_IN_HOUR * SEC_IN_MIN * MILLISEC_IN_SEC));
         if (daysBetweenDates >= 30) {
             hardDelete(id);
         } else {
-
             final String deleteQuery = "update users set changed = ?, is_deleted = true where id = ?";
             registerDriver();
             try (Connection connection = getConnection();
@@ -219,7 +218,9 @@ public class UserRepositoryImpl implements UserRepository {
                 System.err.println(e.getMessage());
                 throw new RuntimeException("SQL Issues!");
             }
-        }*/
+        }
+        Optional<User> checkedUser = findOne(id);
+        return checkedUser;
     }
 
     public void hardDelete(Long id) {

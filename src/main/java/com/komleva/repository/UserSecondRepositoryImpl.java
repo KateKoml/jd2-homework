@@ -36,8 +36,8 @@ public class UserSecondRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void delete(Long id) {
-
+    public Optional<User> delete(Long id) {
+        return null;
     }
 
     @Override
