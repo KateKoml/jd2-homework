@@ -21,7 +21,7 @@ public class SpringTest {
         UserAggregationService userAggregationService = applicationContext.getBean("userAggServiceImpl", UserAggregationService.class);
 
         /*System.out.println(userRepository.findAll());*/
-       /* System.out.println(userRepository.findById(2L));*/
+        System.out.println(userRepository.findById(9L));
         /*System.out.println(userRepository.findOne(1L));*/
 
         /*User newUser = new User("Artyom", "Grud", "M", "sunshine2000@gmail.com",

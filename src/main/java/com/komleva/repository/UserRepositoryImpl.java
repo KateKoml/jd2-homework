@@ -134,7 +134,13 @@ public class UserRepositoryImpl implements UserRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return list.size() == 1 ? list.get(0) : null;
+        User finedUser = new User();
+        try {
+            finedUser = list.get(0);
+        } catch (RuntimeException e) {
+            throw new EntityNotFoundException("There is no such user id");
+        }
+        return finedUser;
     }
 
     @Override
