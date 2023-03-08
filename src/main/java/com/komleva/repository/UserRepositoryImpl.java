@@ -2,6 +2,7 @@ package com.komleva.repository;
 
 import com.komleva.configuration.DatabaseProperties;
 import com.komleva.domain.User;
+import com.komleva.exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Primary;
@@ -17,7 +18,6 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -244,9 +244,9 @@ public class UserRepositoryImpl implements UserRepository {
 
         registerDriver();
         try (Connection connection = getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery(findAllUsersByGenderQuery)
-        ) {
+             PreparedStatement preparedStatement = connection.prepareStatement(findAllUsersByGenderQuery)) {
+            preparedStatement.setString(1, gender);
+            ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 users.add(parseResultSet(rs));
             }
@@ -260,21 +260,25 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public String getFullNameByPhone(String phoneNumber) {
         final String getNameByPhoneQuery = "select * from users where phone = ?";
-
-        List<User> result = new ArrayList<>();
+        Optional<User> user = Optional.empty();
+        String result = "";
         registerDriver();
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(getNameByPhoneQuery)) {
             preparedStatement.setString(1, phoneNumber);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                result.add(parseResultSet(rs));
+                user = Optional.ofNullable(parseResultSet(rs));
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             throw new RuntimeException("SQL Issues!");
         }
-        User user = result.stream().findAny().orElse(null); //возвращает эксепшон а не нулл
-        return Objects.requireNonNull(user).getName() + " " + user.getSurname();
+        try {
+            result = user.get().getName() + " " + user.get().getSurname();
+        } catch (RuntimeException e) {
+            throw new EntityNotFoundException("There is no user with this phone number");
+        }
+        return result;
     }
 }
