@@ -1,17 +1,0 @@
-
-e
-java:S1854"JRemove this useless assignment to local variable "userAggregationService".(‰×Þåøÿÿÿÿ
-V
-java:S1481";Remove this unused "userAggregationService" local variable.(‰×Þåøÿÿÿÿ
-S	java:S106"9Replace this use of System.out or System.err by a logger.(šÛšïþÿÿÿÿ
-V	java:S125"<This block of commented-out lines of code should be removed.(Ë°ªèûÿÿÿÿ
-N	java:S106"9Replace this use of System.out or System.err by a logger.(Ø¼¢ƒ
-V	java:S125""<This block of commented-out lines of code should be removed.(³¶ÙŽýÿÿÿÿ
-V	java:S125&"<This block of commented-out lines of code should be removed.(¸ô­—þÿÿÿÿ
-Q	java:S125-"<This block of commented-out lines of code should be removed.(ØÀ¾¦
-Q	java:S1251"<This block of commented-out lines of code should be removed.(êÍ™ü
-K
-java:S1128
-"/Remove this unused import 'java.sql.Timestamp'.(èò½+8íùè½ë0
-V
-java:S1128"4Remove this unused import 'java.time.LocalDateTime'.(æÃ§ƒüÿÿÿÿ8íùè½ë0

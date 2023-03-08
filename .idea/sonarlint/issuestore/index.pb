@@ -1,19 +1,8 @@
 
 9
 	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
-b
-2src/main/java/com/komleva/service/UserService.java,d\1\d1b4652ca3bec0184ec03233442d625edc0f054e
-f
-6src/main/java/com/komleva/service/UserServiceImpl.java,8\9\8936dc5f674deb6423287b35c8f29bde4d0b293f
 r
 Bsrc/main/java/com/komleva/repository/PurchaseOffersRepository.java,d\a\da916bb6f2354f71c5c9e14250f5b8bcafc57b12
-m
-=src/main/java/com/komleva/service/UserAggregationService.java,e\c\ecb148bae5da63e634da60b9b472fbac04aea16a
-S
-#src/main/java/com/komleva/Main.java,6\1\61bf424ec70a6a201c5fe757c9e081ec021b495b
-:
-
-.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
 d
 4src/main/java/com/komleva/filters/CharsetFilter.java,f\1\f193a0db693677beb9436d416cad90448b500996
 o
@@ -26,5 +15,3 @@ c
 3src/main/java/com/komleva/domain/PurchaseOffer.java,0\d\0ddf89aeb242ee8118dba51b7b2d7eeb2e603ccd
 n
 >src/main/java/com/komleva/listeners/StartupCustomListener.java,a\2\a227556a745e17f4fe2cf16df032f4c2284d34d8
-h
-8src/main/java/com/komleva/repository/UserRepository.java,f\7\f7ff977184dd42cf3d3f5826ecd64d2cc64c0549

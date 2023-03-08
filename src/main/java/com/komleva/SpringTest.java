@@ -28,9 +28,9 @@ public class SpringTest {
                 "375291004583", "piximixy", "hjKhu689", "118.137.26.37");
         System.out.println(userRepository.create(newUser));*/
 
-        System.out.println(userRepository.getFullNameByPhone("375295905041"));
-        System.out.println(userRepository.findAllUsersByGender("F"));
-        /*System.out.println(userService.findAll());
-        System.out.println(userAggregationService.getUsersAndPhones());*/
+        /*System.out.println(userRepository.getFullNameByPhone("375295905041"));
+        System.out.println(userRepository.findAllUsersByGender("F"));*/
+        /*System.out.println(userService.findAll());*/
+        System.out.println(userAggregationService.getUsersAndPhones());
     }
 }

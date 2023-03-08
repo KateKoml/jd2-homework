@@ -14,7 +14,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         UserRepository userRepository = new UserRepositoryImpl(new DatabaseProperties());
-        UserAggregationService userAggregationService = new UserAggServiceImpl(userRepository);
+        //UserAggregationService userAggregationService = new UserAggServiceImpl(userRepository, new DatabaseProperties());
 
         /*
         System.out.println("\n Method create");
