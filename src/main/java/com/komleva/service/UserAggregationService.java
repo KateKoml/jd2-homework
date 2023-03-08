@@ -6,5 +6,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserAggregationService {
-    public List<String> getUsersAndPhones();
+    public Map<String, Map<String, String>> getUsersAndPhones();
 }

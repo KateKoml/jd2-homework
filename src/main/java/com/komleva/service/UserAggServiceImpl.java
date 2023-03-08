@@ -42,10 +42,10 @@ public class UserAggServiceImpl implements UserAggregationService {
     private UserRepository userRepository;
 
     @Override
-    public List<String> getUsersAndPhones() {
+    public Map<String, Map<String, String>> getUsersAndPhones() {
         final String findAllQuery = "select name, surname, phone from users";
 
-        List<String> result = new ArrayList<>();
+        Map<String, Map<String, String>> result = new HashMap<>();
 
         registerDriver();
         try (Connection connection = getConnection();
@@ -53,9 +53,10 @@ public class UserAggServiceImpl implements UserAggregationService {
              ResultSet rs = statement.executeQuery(findAllQuery)
         ) {
             while (rs.next()) {
-                result.add(rs.getString(NAME));
-                result.add(rs.getString(SURNAME));
-                result.add(rs.getString(PHONE));
+                Map<String, String> fullName = new HashMap<>();
+                fullName.put(rs.getString(SURNAME), rs.getString(NAME));
+                result.put(rs.getString(PHONE), fullName);
+
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
