@@ -20,22 +20,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.komleva.enums.UserColumns.ID;
+import static com.komleva.enums.UserColumns.NAME;
+import static com.komleva.enums.UserColumns.SURNAME;
+import static com.komleva.enums.UserColumns.GENDER;
+import static com.komleva.enums.UserColumns.E_MAIL;
+import static com.komleva.enums.UserColumns.PHONE;
+import static com.komleva.enums.UserColumns.LOGIN;
+import static com.komleva.enums.UserColumns.PASSWORD;
+import static com.komleva.enums.UserColumns.USER_IP;
+import static com.komleva.enums.UserColumns.CREATED;
+import static com.komleva.enums.UserColumns.CHANGED;
+import static com.komleva.enums.UserColumns.IS_DELETED;
+
 @Repository
 @Primary
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
-    private static final String ID = "id";
-    private static final String NAME = "name";
-    private static final String SURNAME = "surname";
-    private static final String GENDER = "gender";
-    private static final String E_MAIL = "e_mail";
-    private static final String PHONE = "phone";
-    private static final String LOGIN = "login";
-    private static final String PASSWORD = "password";
-    private static final String USER_IP = "user_ip";
-    private static final String CREATED = "created";
-    private static final String CHANGED = "changed";
-    private static final String IS_DELETED = "is_deleted";
     private final DatabaseProperties properties;
 
     @Override
@@ -64,18 +65,18 @@ public class UserRepositoryImpl implements UserRepository {
 
         try {
             user = new User();
-            user.setId(rs.getLong(ID)); //1 or id
-            user.setName(rs.getString(NAME));
-            user.setSurname(rs.getString(SURNAME));
-            user.setGender(rs.getString(GENDER));
-            user.setEmail(rs.getString(E_MAIL));
-            user.setPhone(rs.getString(PHONE));
-            user.setLogin(rs.getString(LOGIN));
-            user.setPassword(rs.getString(PASSWORD));
-            user.setUserIP(rs.getString(USER_IP));
-            user.setCreated(rs.getTimestamp(CREATED));
-            user.setChanged(rs.getTimestamp(CHANGED));
-            user.setIsDeleted(rs.getBoolean(IS_DELETED));
+            user.setId(rs.getLong(ID.name()));
+            user.setName(rs.getString(NAME.name()));
+            user.setSurname(rs.getString(SURNAME.name()));
+            user.setGender(rs.getString(GENDER.name()));
+            user.setEmail(rs.getString(E_MAIL.name()));
+            user.setPhone(rs.getString(PHONE.name()));
+            user.setLogin(rs.getString(LOGIN.name()));
+            user.setPassword(rs.getString(PASSWORD.name()));
+            user.setUserIP(rs.getString(USER_IP.name()));
+            user.setCreated(rs.getTimestamp(CREATED.name()));
+            user.setChanged(rs.getTimestamp(CHANGED.name()));
+            user.setIsDeleted(rs.getBoolean(IS_DELETED.name()));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
