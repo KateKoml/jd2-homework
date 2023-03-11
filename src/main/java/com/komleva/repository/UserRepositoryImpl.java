@@ -191,14 +191,14 @@ public class UserRepositoryImpl implements UserRepository {
             statements.setString(5, user.getPhone());
             statements.setString(6, user.getPassword());
             statements.setTimestamp(7, user.getChanged());
-            statements.setBoolean(8, user.getIsDeleted());
+            statements.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
             statements.setLong(9, user.getId());
             statements.executeUpdate();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             throw new RuntimeException("SQL Issues!");
         }
-        return user;
+        return findById(user.getId());
     }
 
     @Override
@@ -207,11 +207,12 @@ public class UserRepositoryImpl implements UserRepository {
         final int MIN_IN_HOUR = 60;
         final int SEC_IN_MIN = 60;
         final int MILLISEC_IN_SEC = 1000;
+        final int EXPIRATION_DATE = 30;
         Optional<User> thisUser = findOne(id);
 
         long millisecondsBetweenTwoDates = thisUser.get().getChanged().getTime() - thisUser.get().getCreated().getTime();
         int daysBetweenDates = (int) (millisecondsBetweenTwoDates / (HOURS_IN_DAY * MIN_IN_HOUR * SEC_IN_MIN * MILLISEC_IN_SEC));
-        if (daysBetweenDates >= 30) {
+        if (daysBetweenDates >= EXPIRATION_DATE) {
             hardDelete(id);
         } else {
             final String deleteQuery = "update users set changed = ?, is_deleted = true where id = ?";
