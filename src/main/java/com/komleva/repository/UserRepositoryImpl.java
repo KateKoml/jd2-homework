@@ -34,7 +34,7 @@ import static com.komleva.enums.UserColumns.CHANGED;
 import static com.komleva.enums.UserColumns.IS_DELETED;
 
 @Repository
-@Primary
+//@Primary
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
     private final DatabaseProperties properties;
