@@ -4,4 +4,5 @@ import com.komleva.domain.PurchaseOffer;
 import com.komleva.repository.CRUDRepository;
 
 public interface PurchaseOfferRepository extends CRUDRepository<Long, PurchaseOffer> {
+    public void hardDelete(Long id);
 }

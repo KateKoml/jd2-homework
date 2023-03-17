@@ -35,4 +35,9 @@ public class PurchaseOfferRepositoryImpl implements PurchaseOfferRepository {
     public Optional<PurchaseOffer> delete(Long id) {
         return null;
     }
+
+    @Override
+    public void hardDelete(Long id) {
+
+    }
 }

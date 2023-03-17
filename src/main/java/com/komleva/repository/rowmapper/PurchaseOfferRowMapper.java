@@ -3,6 +3,7 @@ package com.komleva.repository.rowmapper;
 import com.komleva.domain.PurchaseOffer;
 import com.komleva.domain.User;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +20,7 @@ import static com.komleva.enums.PurchaseOfferColumns.PRODUCT_NAME;
 import static com.komleva.enums.PurchaseOfferColumns.SELLER_ID;
 import static com.komleva.enums.PurchaseOfferColumns.STATUS_ID;
 
-
+@Component
 public class PurchaseOfferRowMapper implements RowMapper<PurchaseOffer> {
     @Override
     public PurchaseOffer mapRow(ResultSet rs, int rowNum) throws SQLException {

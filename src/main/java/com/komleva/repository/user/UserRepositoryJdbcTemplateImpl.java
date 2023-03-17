@@ -24,13 +24,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserRepositoryJdbcTemplateImpl implements UserRepository {
     private static final Logger logger = Logger.getLogger(UserRepositoryJdbcTemplateImpl.class);
+
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final UserRowMapper userRowMapper;
 
     @Override
     public Optional<User> findOne(Long id) {
-        Optional<User> user = Optional.empty();
+        Optional<User> user;
         try {
             user = Optional.ofNullable(jdbcTemplate.queryForObject("select * from users where id = " + id, userRowMapper));
         } catch (RuntimeException e) {
@@ -42,7 +43,7 @@ public class UserRepositoryJdbcTemplateImpl implements UserRepository {
 
     @Override
     public User findById(Long id) {
-        User user = null;
+        User user;
         try {
             user = jdbcTemplate.queryForObject("select * from users where id = " + id, userRowMapper);
         } catch (RuntimeException e) {

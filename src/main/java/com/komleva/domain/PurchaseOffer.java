@@ -30,6 +30,17 @@ public class PurchaseOffer {
     private Timestamp changed;
     private Boolean isDeleted;
 
+    public PurchaseOffer(Long sellerId, Long customerId, Integer statusId, String productName,
+                         Integer productCategoryId, Integer productConditionId, Double price) {
+        this.sellerId = sellerId;
+        this.customerId = customerId;
+        this.statusId = statusId;
+        this.productName = productName;
+        this.productCategoryId = productCategoryId;
+        this.productConditionId = productConditionId;
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
