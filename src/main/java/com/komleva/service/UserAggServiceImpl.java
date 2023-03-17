@@ -1,10 +1,8 @@
 package com.komleva.service;
 
 import com.komleva.configuration.DatabaseProperties;
-import com.komleva.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;

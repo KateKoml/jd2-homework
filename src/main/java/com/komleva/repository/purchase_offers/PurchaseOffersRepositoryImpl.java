@@ -1,7 +1,6 @@
-package com.komleva.repository;
+package com.komleva.repository.purchase_offers;
 
 import com.komleva.domain.PurchaseOffer;
-import com.komleva.domain.User;
 
 import java.util.List;
 import java.util.Optional;

@@ -2,13 +2,9 @@ package com.komleva;
 
 import com.komleva.configuration.DatabaseProperties;
 import com.komleva.domain.User;
-import com.komleva.repository.UserRepository;
-import com.komleva.repository.UserRepositoryImpl;
-import com.komleva.service.UserAggServiceImpl;
-import com.komleva.service.UserAggregationService;
+import com.komleva.repository.user.UserRepository;
+import com.komleva.repository.user.UserRepositoryImpl;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class Main {

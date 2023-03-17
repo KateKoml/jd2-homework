@@ -1,11 +1,10 @@
-package com.komleva.repository;
+package com.komleva.repository.user;
 
 import com.komleva.configuration.DatabaseProperties;
 import com.komleva.domain.User;
 import com.komleva.exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -285,6 +284,7 @@ public class UserRepositoryImpl implements UserRepository {
         try {
             result = user.get().getName() + " " + user.get().getSurname();
         } catch (RuntimeException e) {
+
             throw new EntityNotFoundException("There is no user with this phone number");
         }
         return result;
