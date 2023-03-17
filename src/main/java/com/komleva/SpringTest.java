@@ -15,8 +15,8 @@ public class SpringTest {
         UserService userService = applicationContext.getBean("userServiceImpl", UserService.class);
         UserAggregationService userAggregationService = applicationContext.getBean("userAggServiceImpl", UserAggregationService.class);
 
-        /*logger.info(userRepository.findAll());
-        System.out.println(userRepository.findById(9L));
+        //logger.info(userRepository.findAll());
+        /*System.out.println(userRepository.findById(9L));
         logger.info(userRepository.findOne(1L));
         logger.info(userRepository.findOne(2L));
         logger.info(userRepository.findById(3L));
@@ -25,11 +25,12 @@ public class SpringTest {
         /*User newUser = new User("Petya", "Chehov", "M", "poetryclub@gmail.com",
                 "375337002849", "Chehov", "jekjwHj29", "118.0.0.28");
         logger.info(userRepository.create(newUser));*/
-        logger.info(userRepository.delete(8L));
-
-        logger.info(userRepository.getFullNameByPhone("375295905041"));
-        /*logger.info(userRepository.findAllUsersByGender("F"));*/
-        /*logger.info(userService.findAll());*/
+        //logger.info(userRepository.delete(14L));
+        logger.info(userRepository.findOne(8L));
+        //logger.info(userRepository.findById(6L));
+        //logger.info(userRepository.getFullNameByPhone("375295906041"));
+        //logger.info(userRepository.findAllUsersByGender("F"));
+        logger.info(userService.findAll());
        /* logger.info(userAggregationService.getUsersAndPhones());*/
     }
 }

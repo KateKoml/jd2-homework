@@ -1,14 +1,14 @@
-package com.komleva.repository.purchase_offers;
+package com.komleva.repository.purchase_offer;
 
 import com.komleva.domain.PurchaseOffer;
 
 import java.util.List;
 import java.util.Optional;
 
-public class PurchaseOffersRepositoryImpl implements PurchaseOffersRepository {
+public class PurchaseOfferJdbcTemplateImpl implements PurchaseOfferRepository {
     @Override
     public Optional<PurchaseOffer> findOne(Long id) {
-        return null;
+        return Optional.empty();
     }
 
     @Override
@@ -33,6 +33,6 @@ public class PurchaseOffersRepositoryImpl implements PurchaseOffersRepository {
 
     @Override
     public Optional<PurchaseOffer> delete(Long id) {
-        return null;
+        return Optional.empty();
     }
 }

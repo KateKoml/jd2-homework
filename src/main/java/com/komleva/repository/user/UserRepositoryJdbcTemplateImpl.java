@@ -30,12 +30,26 @@ public class UserRepositoryJdbcTemplateImpl implements UserRepository {
 
     @Override
     public Optional<User> findOne(Long id) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject("select * from users where id = " + id, userRowMapper));
+        Optional<User> user = Optional.empty();
+        try {
+            user = Optional.ofNullable(jdbcTemplate.queryForObject("select * from users where id = " + id, userRowMapper));
+        } catch (RuntimeException e) {
+            logger.warn(e.getMessage());
+            throw new EntityNotFoundException("No such id was found");
+        }
+        return user;
     }
 
     @Override
     public User findById(Long id) {
-        return jdbcTemplate.queryForObject("select * from users where id = " + id, userRowMapper);
+        User user = null;
+        try {
+            user = jdbcTemplate.queryForObject("select * from users where id = " + id, userRowMapper);
+        } catch (RuntimeException e) {
+            logger.warn(e.getMessage());
+            throw new EntityNotFoundException("No such id was found");
+        }
+        return user;
     }
 
     @Override
@@ -86,16 +100,15 @@ public class UserRepositoryJdbcTemplateImpl implements UserRepository {
 
     @Override
     public Optional<User> delete(Long id) {
-        final String deleteQuery = "update users set changed = ?, is_deleted = true where id = ?";
         final int HOURS_IN_DAY = 24;
         final int MIN_IN_HOUR = 60;
         final int SEC_IN_MIN = 60;
         final int MILLISEC_IN_SEC = 1000;
         final int EXPIRATION_DATE = 30;
 
-        Optional<User> thisUser = findOne(id);
-
-        long millisecondsBetweenTwoDates = thisUser.get().getChanged().getTime() - thisUser.get().getCreated().getTime();
+        final String deleteQuery = "update users set changed = ?, is_deleted = true where id = ?";
+        User thisUser = findById(id);
+        long millisecondsBetweenTwoDates = thisUser.getChanged().getTime() - thisUser.getCreated().getTime();
         int daysBetweenDates = (int) (millisecondsBetweenTwoDates / (HOURS_IN_DAY * MIN_IN_HOUR * SEC_IN_MIN * MILLISEC_IN_SEC));
         if (daysBetweenDates >= EXPIRATION_DATE) {
             hardDelete(id);

@@ -12,5 +12,5 @@ public enum UserColumns {
     USER_IP,
     CREATED,
     CHANGED,
-    IS_DELETED;
+    IS_DELETED
 }
