@@ -2,6 +2,7 @@ package com.komleva.repository.purchase_offer;
 
 import com.komleva.domain.PurchaseOffer;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,4 +41,14 @@ public class PurchaseOfferRepositoryImpl implements PurchaseOfferRepository {
     public void hardDelete(Long id) {
 
     }
+
+    @Override
+    public void getProductByName(String search) {
+    }
+
+    @Override
+    public void updateOfferPrice(Long offerId, BigDecimal newPrice) {
+
+    }
+
 }

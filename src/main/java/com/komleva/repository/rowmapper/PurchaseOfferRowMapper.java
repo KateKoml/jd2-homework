@@ -34,7 +34,7 @@ public class PurchaseOfferRowMapper implements RowMapper<PurchaseOffer> {
                     .productName(rs.getString(PRODUCT_NAME.name()))
                     .productCategoryId(rs.getInt(PRODUCT_CATEGORY_ID.name()))
                     .productConditionId(rs.getInt(PRODUCT_CONDITION_ID.name()))
-                    .price(rs.getDouble(PRICE.name()))
+                    .price(rs.getBigDecimal(PRICE.name()))
                     .created(rs.getTimestamp(CREATED.name()))
                     .changed(rs.getTimestamp(CHANGED.name()))
                     .isDeleted(rs.getBoolean(IS_DELETED.name()))

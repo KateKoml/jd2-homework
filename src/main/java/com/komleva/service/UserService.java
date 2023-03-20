@@ -9,7 +9,7 @@ public interface UserService {
 
     List<User> findAll();
 
-    User create(User object);
+    User create(User object); //проверка на валидность e-mail, phone, ip, password с 1 заглавной и одной цифрой
 
     User update(User object);
 

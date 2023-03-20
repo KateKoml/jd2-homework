@@ -8,6 +8,10 @@ import com.komleva.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 public class SpringTest {
     private static final Logger logger = Logger.getLogger(SpringTest.class);
 
@@ -21,6 +25,14 @@ public class SpringTest {
         //logger.info(purchaseOfferRepository.findAll());
         logger.info(purchaseOfferRepository.findOne(1L));
         logger.info(purchaseOfferRepository.findById(2L));
+        //purchaseOfferRepository.getProductByName("bag");
+        purchaseOfferRepository.updateOfferPrice(1L, BigDecimal.valueOf(8));
+        /*PurchaseOffer newPurchase = new PurchaseOffer(15L, 17L, 1, "Sport bag",
+                4, 2, 25.55);
+        logger.info(purchaseOfferRepository.create(newPurchase));*/
+        //logger.info(purchaseOfferRepository.update(new PurchaseOffer(3L, 15L, 17L, 2,
+        //        "Sport bag",4, 2, 25.55, false)));
+        //logger.info(purchaseOfferRepository.delete(4L));
         //logger.info(userRepository.findOne(4L));
 
         /*User newUser = new User("Petya", "Chehov", "M", "poetryclub@gmail.com",
