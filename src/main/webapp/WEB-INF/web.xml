@@ -6,59 +6,13 @@
 
     <servlet>
         <servlet-name>MainServlet</servlet-name>
-        <servlet-class>com.komleva.controller.FrontController</servlet-class>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
-        <url-pattern>/FrontController</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
-
-    <!--    localhost:8080/application/FrontController-->
-    <!--    https://komleva.com/application/FrontController-->
-
-    <servlet>
-        <servlet-name>WelcomeWeb</servlet-name>
-        <jsp-file>/WEB-INF/jsp/welcome.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>WelcomeWeb</servlet-name>
-        <url-pattern>/welcome</url-pattern>
-    </servlet-mapping>
-
-    <!--    localhost:8080/application/welcome-->
-
-    <servlet>
-        <servlet-name>GoodbyeWeb</servlet-name>
-        <jsp-file>/WEB-INF/jsp/goodbye.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>GoodbyeWeb</servlet-name>
-        <url-pattern>/goodbye</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>GetGetGetWeb</servlet-name>
-        <jsp-file>/WEB-INF/jsp/get.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>GetGetGetWeb</servlet-name>
-        <url-pattern>/get</url-pattern>
-    </servlet-mapping>
-
-    <listener>
-        <listener-class>com.komleva.listeners.StartupCustomListener</listener-class>
-    </listener>
-
-    <filter>
-        <filter-name>CharsetFilter</filter-name>
-        <filter-class>com.komleva.filters.CharsetFilter</filter-class>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>CharsetFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-    <!--    localhost:8080/application/bye-->
     <session-config>
         <session-timeout>10</session-timeout>
     </session-config>

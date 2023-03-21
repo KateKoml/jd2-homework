@@ -14,36 +14,36 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-@Controller
+@Deprecated
+//@Controller
 public class FrontController extends HttpServlet {
-    @Autowired
-    private UserService userService;
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doRequest(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doRequest(req, resp);
-    }
-
-    private void doRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/welcome");
-        if (dispatcher != null) {
-            System.out.println("Forward will be done!");
-            System.out.println("We are processing user request");
-
-            List<User> users = userService.findAll();
-
-            String collect = users.stream().map(User::getName).collect(Collectors.joining(","));
-
-            req.setAttribute("userName", collect);
-            req.setAttribute("users", users);
-
-            dispatcher.forward(req, resp);
-        }
-    }
+//    @Autowired
+//    private UserService userService;
+//
+//    @Override
+//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        doRequest(req, resp);
+//    }
+//
+//    @Override
+//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        doRequest(req, resp);
+//    }
+//
+//    private void doRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        RequestDispatcher dispatcher = req.getRequestDispatcher("/welcome");
+//        if (dispatcher != null) {
+//            System.out.println("Forward will be done!");
+//            System.out.println("We are processing user request");
+//
+//            List<User> users = userService.findAll();
+//
+//            String collect = users.stream().map(User::getName).collect(Collectors.joining(","));
+//
+//            req.setAttribute("userName", collect);
+//            req.setAttribute("users", users);
+//
+//            dispatcher.forward(req, resp);
+//        }
+//    }
 }

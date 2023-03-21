@@ -8,40 +8,19 @@ import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-
-import static com.komleva.enums.PurchaseOfferColumns.CHANGED;
-import static com.komleva.enums.PurchaseOfferColumns.CREATED;
-import static com.komleva.enums.PurchaseOfferColumns.CUSTOMER_ID;
-import static com.komleva.enums.PurchaseOfferColumns.ID;
-import static com.komleva.enums.PurchaseOfferColumns.IS_DELETED;
-import static com.komleva.enums.PurchaseOfferColumns.PRICE;
-import static com.komleva.enums.PurchaseOfferColumns.PRODUCT_CATEGORY_ID;
-import static com.komleva.enums.PurchaseOfferColumns.PRODUCT_CONDITION_ID;
-import static com.komleva.enums.PurchaseOfferColumns.PRODUCT_NAME;
-import static com.komleva.enums.PurchaseOfferColumns.SELLER_ID;
-import static com.komleva.enums.PurchaseOfferColumns.STATUS_ID;
 
 @Repository
 @Primary
@@ -157,16 +136,21 @@ public class PurchaseOfferRepositoryJdbcTemplateImpl implements PurchaseOfferRep
     @Override
     public void getProductByName(String search) {
         String sql = "SELECT * FROM get_product_by_name(?)";
-        List<Product> products = jdbcTemplate.query(sql, new Object[]{search}, (rs, rowNum) -> {
-            Product product = new Product();
-            product.setId(rs.getLong("id"));
-            product.setProductName(rs.getString("product_name"));
-            product.setProductCategoryId(rs.getInt("product_category_id"));
-            product.setProductConditionId(rs.getInt("product_condition_id"));
-            product.setPrice(rs.getBigDecimal("price"));
-            return product;
-        });
-        logger.info(products);
+        try {
+            List<Product> products = jdbcTemplate.query(sql, new Object[]{search}, (rs, rowNum) -> {
+                Product product = new Product();
+                product.setId(rs.getLong("id"));
+                product.setProductName(rs.getString("product_name"));
+                product.setProductCategoryId(rs.getInt("product_category_id"));
+                product.setProductConditionId(rs.getInt("product_condition_id"));
+                product.setPrice(rs.getBigDecimal("price"));
+                return product;
+            });
+            logger.info(products);
+        } catch (RuntimeException e) {
+            logger.warn(e.getMessage());
+            throw new EntityNotFoundException("No such id was found");
+        }
     }
 
     @Override
