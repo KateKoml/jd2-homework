@@ -37,7 +37,8 @@ public class PurchaseOfferRepositoryJdbcTemplateImpl implements PurchaseOfferRep
     public Optional<PurchaseOffer> findOne(Long id) {
         Optional<PurchaseOffer> purchaseOffer;
         try {
-            purchaseOffer = Optional.ofNullable(jdbcTemplate.queryForObject("select * from purchase_offers where id = " + id, purchaseOfferRowMapper));
+            purchaseOffer = Optional.ofNullable(jdbcTemplate.queryForObject("select * from purchase_offers where id = "
+                    + id, purchaseOfferRowMapper));
         } catch (RuntimeException e) {
             logger.warn(e.getMessage());
             throw new EntityNotFoundException("No such id was found");

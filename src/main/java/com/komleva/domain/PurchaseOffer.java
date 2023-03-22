@@ -55,6 +55,18 @@ public class PurchaseOffer {
         this.isDeleted = isDeleted;
     }
 
+    public PurchaseOffer(Long id, Long sellerId, Integer statusId, String productName,
+                         Integer productCategoryId, Integer productConditionId, BigDecimal price, Boolean isDeleted) {
+        this.id = id;
+        this.sellerId = sellerId;
+        this.statusId = statusId;
+        this.productName = productName;
+        this.productCategoryId = productCategoryId;
+        this.productConditionId = productConditionId;
+        this.price = price;
+        this.isDeleted = isDeleted;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
