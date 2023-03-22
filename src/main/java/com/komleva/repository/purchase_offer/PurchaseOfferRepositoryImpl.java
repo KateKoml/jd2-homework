@@ -1,5 +1,6 @@
 package com.komleva.repository.purchase_offer;
 
+import com.komleva.domain.Product;
 import com.komleva.domain.PurchaseOffer;
 
 import java.math.BigDecimal;
@@ -43,7 +44,8 @@ public class PurchaseOfferRepositoryImpl implements PurchaseOfferRepository {
     }
 
     @Override
-    public void getProductByName(String search) {
+    public List<Product> getProductByName(String search) {
+        return null;
     }
 
     @Override

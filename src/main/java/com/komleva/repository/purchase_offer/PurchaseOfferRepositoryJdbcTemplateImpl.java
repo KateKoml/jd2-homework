@@ -135,10 +135,10 @@ public class PurchaseOfferRepositoryJdbcTemplateImpl implements PurchaseOfferRep
 
 
     @Override
-    public void getProductByName(String search) {
+    public  List<Product> getProductByName(String search) {
         String sql = "SELECT * FROM get_product_by_name(?)";
         try {
-            List<Product> products = jdbcTemplate.query(sql, new Object[]{search}, (rs, rowNum) -> {
+            return jdbcTemplate.query(sql, new Object[]{search}, (rs, rowNum) -> {
                 Product product = new Product();
                 product.setId(rs.getLong("id"));
                 product.setProductName(rs.getString("product_name"));
@@ -147,7 +147,6 @@ public class PurchaseOfferRepositoryJdbcTemplateImpl implements PurchaseOfferRep
                 product.setPrice(rs.getBigDecimal("price"));
                 return product;
             });
-            logger.info(products);
         } catch (RuntimeException e) {
             logger.warn(e.getMessage());
             throw new EntityNotFoundException("No such id was found");
