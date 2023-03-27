@@ -23,7 +23,6 @@ public class User {
     private String name;
     private String surname;
     private String gender;
-    private Long addressId;
     private String email;
     private String phone;
     private String login;

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -13,8 +14,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public User findOne(Long id) {
-        return null;
+    public Optional<User> findOne(Long id) {
+        return userRepository.findOne(id);
     }
 
     @Override
@@ -24,11 +25,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findById(Long id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
     public User create(User object) {
         /*Validation layer*/
-        if (!object.getPhone().startsWith("375")) {
-            throw new RuntimeException("Wrong phone!");
-        }
+//        if (!object.getPhone().startsWith("375")) {
+//            throw new RuntimeException("Wrong phone!");
+//        }
 
         return userRepository.create(object);
     }
@@ -39,7 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(Long id) {
-        userRepository.delete(id);
+    public Optional<User> delete(Long id) {
+        return userRepository.delete(id);
     }
 }

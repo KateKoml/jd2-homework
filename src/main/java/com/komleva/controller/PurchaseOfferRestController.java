@@ -1,5 +1,6 @@
 package com.komleva.controller;
 
+import com.komleva.domain.Product;
 import com.komleva.domain.PurchaseOffer;
 import com.komleva.repository.purchase_offer.PurchaseOfferRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -44,8 +47,21 @@ public class PurchaseOfferRestController {
         return new ResponseEntity<>(purchaseOfferRepository.update(purchaseOffer), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletePurchaseOffer(@PathVariable Long id) {
-        return new ResponseEntity<>(purchaseOfferRepository.delete(id), HttpStatus.OK);
+    @DeleteMapping
+    public ResponseEntity<Object> deletePurchaseOffer(@RequestBody PurchaseOffer purchaseOffer) {
+        return new ResponseEntity<>(purchaseOfferRepository.delete(purchaseOffer.getId()), HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Object> searchProductByName(@RequestParam(value = "query") String query) {
+        List<Product> products = purchaseOfferRepository.getProductByName(query);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}/price")
+    public ResponseEntity<Object> updatePriceOfOffer(@PathVariable Long id,
+                                                     @RequestParam BigDecimal newPrice) {
+        purchaseOfferRepository.updateOfferPrice(id, newPrice);
+        return new ResponseEntity<>(purchaseOfferRepository.findById(id), HttpStatus.OK);
     }
 }
