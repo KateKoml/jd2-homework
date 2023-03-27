@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/rest/purchase-offers")
@@ -26,40 +27,40 @@ public class PurchaseOfferRestController {
     private final PurchaseOfferRepository purchaseOfferRepository;
 
     @GetMapping()
-    public ResponseEntity<Object> getAllPurchaseOffers() {
+    public ResponseEntity<List<PurchaseOffer>> getAllPurchaseOffers() {
         List<PurchaseOffer> purchaseOffers = purchaseOfferRepository.findAll();
         return new ResponseEntity<>(purchaseOffers, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getOnePurchaseOffer(@PathVariable Long id) {
+    public ResponseEntity<PurchaseOffer> getOnePurchaseOffer(@PathVariable Long id) {
         PurchaseOffer purchaseOffer = purchaseOfferRepository.findById(id);
         return new ResponseEntity<>(purchaseOffer, HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity<Object> createPurchaseOffer(@RequestBody PurchaseOffer purchaseOffer) {
+    public ResponseEntity<PurchaseOffer> createPurchaseOffer(@RequestBody PurchaseOffer purchaseOffer) {
         return new ResponseEntity<>(purchaseOfferRepository.create(purchaseOffer), HttpStatus.CREATED);
     }
 
     @PutMapping()
-    public ResponseEntity<Object> updatePurchaseOffer(@RequestBody PurchaseOffer purchaseOffer) {
+    public ResponseEntity<PurchaseOffer> updatePurchaseOffer(@RequestBody PurchaseOffer purchaseOffer) {
         return new ResponseEntity<>(purchaseOfferRepository.update(purchaseOffer), HttpStatus.OK);
     }
 
     @DeleteMapping
-    public ResponseEntity<Object> deletePurchaseOffer(@RequestBody PurchaseOffer purchaseOffer) {
+    public ResponseEntity<Optional<PurchaseOffer>> deletePurchaseOffer(@RequestBody PurchaseOffer purchaseOffer) {
         return new ResponseEntity<>(purchaseOfferRepository.delete(purchaseOffer.getId()), HttpStatus.OK);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Object> searchProductByName(@RequestParam(value = "query") String query) {
+    public ResponseEntity<List<Product>> searchProductByName(@RequestParam(value = "query") String query) {
         List<Product> products = purchaseOfferRepository.getProductByName(query);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @PutMapping("/{id}/price")
-    public ResponseEntity<Object> updatePriceOfOffer(@PathVariable Long id,
+    public ResponseEntity<PurchaseOffer> updatePriceOfOffer(@PathVariable Long id,
                                                      @RequestParam BigDecimal newPrice) {
         purchaseOfferRepository.updateOfferPrice(id, newPrice);
         return new ResponseEntity<>(purchaseOfferRepository.findById(id), HttpStatus.OK);

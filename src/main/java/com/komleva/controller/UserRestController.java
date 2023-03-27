@@ -27,7 +27,7 @@ public class UserRestController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<Object> getAllUsers() {
+    public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.findAll();
         return new ResponseEntity<>(users, HttpStatus.OK);
         //throw new RuntimeException("Huston, we have a problem here!");
@@ -59,7 +59,7 @@ public class UserRestController {
     }
 
     @PutMapping()
-    public ResponseEntity<Object> updatePurchaseOffer(@RequestBody UserCreateRequest request) {
+    public ResponseEntity<User> updatePurchaseOffer(@RequestBody UserCreateRequest request) {
         User updateUser = userService.update(User.builder()
                 .id(request.getId())
                 .name(request.getName())
@@ -75,7 +75,7 @@ public class UserRestController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Object> deletePurchaseOffer(@RequestBody UserCreateRequest request) {
+    public ResponseEntity<Optional<User>> deletePurchaseOffer(@RequestBody UserCreateRequest request) {
         Optional<User> user = userService.delete(request.getId());
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
