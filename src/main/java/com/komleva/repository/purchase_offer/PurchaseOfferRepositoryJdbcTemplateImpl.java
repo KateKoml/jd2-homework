@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -73,7 +74,11 @@ public class PurchaseOfferRepositoryJdbcTemplateImpl implements PurchaseOfferRep
         jdbcTemplate.update(connection -> {
             PreparedStatement stmt = connection.prepareStatement(createQuery, new String[]{"id"});
             stmt.setLong(1, purchaseOffer.getSellerId());
-            stmt.setLong(2, purchaseOffer.getCustomerId());
+            if (purchaseOffer.getCustomerId() == null) {
+                stmt.setNull(2, Types.BIGINT);
+            } else {
+                stmt.setLong(2, purchaseOffer.getCustomerId());
+            }
             stmt.setInt(3, purchaseOffer.getStatusId());
             stmt.setString(4, purchaseOffer.getProductName());
             stmt.setInt(5, purchaseOffer.getProductCategoryId());
@@ -92,17 +97,31 @@ public class PurchaseOfferRepositoryJdbcTemplateImpl implements PurchaseOfferRep
         final String updateQuery = "update purchase_offers set seller_id = ?, customer_id = ?, status_id = ?, " +
                 "product_name = ?, product_category_id = ?, product_condition_id = ?, price = ?, changed = ?, " +
                 " is_deleted = ? where id = ?";
-        jdbcTemplate.update(updateQuery,
-                purchaseOffer.getSellerId(),
-                purchaseOffer.getCustomerId(),
-                purchaseOffer.getStatusId(),
-                purchaseOffer.getProductName(),
-                purchaseOffer.getProductCategoryId(),
-                purchaseOffer.getProductConditionId(),
-                purchaseOffer.getPrice(),
-                Timestamp.valueOf(LocalDateTime.now()),
-                purchaseOffer.getIsDeleted(),
-                purchaseOffer.getId());
+        if (purchaseOffer.getCustomerId() == null) {
+            jdbcTemplate.update(updateQuery,
+                    purchaseOffer.getSellerId(),
+                    null,
+                    purchaseOffer.getStatusId(),
+                    purchaseOffer.getProductName(),
+                    purchaseOffer.getProductCategoryId(),
+                    purchaseOffer.getProductConditionId(),
+                    purchaseOffer.getPrice(),
+                    Timestamp.valueOf(LocalDateTime.now()),
+                    purchaseOffer.getIsDeleted(),
+                    purchaseOffer.getId());
+        } else {
+            jdbcTemplate.update(updateQuery,
+                    purchaseOffer.getSellerId(),
+                    purchaseOffer.getCustomerId(),
+                    purchaseOffer.getStatusId(),
+                    purchaseOffer.getProductName(),
+                    purchaseOffer.getProductCategoryId(),
+                    purchaseOffer.getProductConditionId(),
+                    purchaseOffer.getPrice(),
+                    Timestamp.valueOf(LocalDateTime.now()),
+                    purchaseOffer.getIsDeleted(),
+                    purchaseOffer.getId());
+        }
         return findById(purchaseOffer.getId());
     }
 

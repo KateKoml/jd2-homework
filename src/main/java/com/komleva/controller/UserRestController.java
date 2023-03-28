@@ -70,6 +70,7 @@ public class UserRestController {
                 .login(request.getLogin())
                 .password(request.getPassword())
                 .userIP(request.getUserIP())
+                .isDeleted(request.getIsDeleted())
                 .build());
         return new ResponseEntity<>(updateUser, HttpStatus.OK);
     }

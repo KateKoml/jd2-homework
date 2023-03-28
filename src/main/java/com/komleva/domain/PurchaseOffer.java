@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -65,6 +66,16 @@ public class PurchaseOffer {
         this.productConditionId = productConditionId;
         this.price = price;
         this.isDeleted = isDeleted;
+    }
+
+    public PurchaseOffer(Long sellerId, Integer statusId, String productName,
+                         Integer productCategoryId, Integer productConditionId, BigDecimal price) {
+        this.sellerId = sellerId;
+        this.statusId = statusId;
+        this.productName = productName;
+        this.productCategoryId = productCategoryId;
+        this.productConditionId = productConditionId;
+        this.price = price;
     }
 
     @Override

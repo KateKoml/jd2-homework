@@ -6,6 +6,9 @@ import com.komleva.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -36,7 +39,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
-
         if (!nameValidation(user.getName()) || !nameValidation(user.getSurname())) {
             throw new RuntimeException("Try another name, without numbers");
         } else if (!emailValidation(user.getEmail())) {
@@ -52,7 +54,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean nameValidation(String name) {
-        final String NAME_PATTERN = "[A-Z]+([ '-][a-zA-Z]+)*";
+        final String NAME_PATTERN = "^[A-Z][a-z]*$";
         pattern = Pattern.compile(NAME_PATTERN);
         matcher = pattern.matcher(name);
         return matcher.matches();
@@ -66,7 +68,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean phoneValidation(String phone) {
-        final String PHONE_PATTERN = "^(\\+375|80)(29|25|33|44)(\\d{3})(\\d{2})(\\d{2})$";
+        final String PHONE_PATTERN = "^(375|80)(29|25|33|44)(\\d{3})(\\d{2})(\\d{2})$";
         pattern = Pattern.compile(PHONE_PATTERN);
         matcher = pattern.matcher(phone);
         return matcher.matches();
@@ -80,13 +82,12 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean ipValidation(String ip) {
-        final String IP_PATTERN = "^(25[0-5]|2[0-4][0-9][01]?[0-9][0-9]?)\\." +
-                "(25[0-5]|2[0-4][0-9][01]?[0-9][0-9]?)\\." +
-                "(25[0-5]|2[0-4][0-9][01]?[0-9][0-9]?)\\." +
-                "(25[0-5]|2[0-4][0-9][01]?[0-9][0-9]?)$";
-        pattern = Pattern.compile(IP_PATTERN);
-        matcher = pattern.matcher(ip);
-        return matcher.matches();
+        try {
+            InetAddress inetAddress = InetAddress.getByName(ip);
+            return inetAddress instanceof InetAddress || inetAddress instanceof Inet6Address;
+        } catch (UnknownHostException e) {
+            return false;
+        }
     }
 
     @Override
