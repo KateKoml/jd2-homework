@@ -33,30 +33,6 @@ public class User {
     private Timestamp changed;
     private Boolean isDeleted;
 
-//    public User(String name, String surname, String gender, String email, String phone, String login, String password, String userIP) {
-//        this.name = name;
-//        this.surname = surname;
-//        this.gender = gender;
-//        this.email = email;
-//        this.phone = phone;
-//        this.login = login;
-//        this.password = password;
-//        this.userIP = userIP;
-//    }
-//
-//    public User(Long id, String name, String surname, String gender, String email, String phone, String login, String password, String userIP, Boolean isDeleted) {
-//        this.id = id;
-//        this.name = name;
-//        this.surname = surname;
-//        this.gender = gender;
-//        this.email = email;
-//        this.phone = phone;
-//        this.login = login;
-//        this.password = password;
-//        this.userIP = userIP;
-//        this.isDeleted = isDeleted;
-//    }
-
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
