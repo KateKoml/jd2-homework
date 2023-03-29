@@ -32,51 +32,51 @@ public class PurchaseOffer {
     private Timestamp changed;
     private Boolean isDeleted;
 
-    public PurchaseOffer(Long sellerId, Long customerId, Integer statusId, String productName,
-                         Integer productCategoryId, Integer productConditionId, BigDecimal price) {
-        this.sellerId = sellerId;
-        this.customerId = customerId;
-        this.statusId = statusId;
-        this.productName = productName;
-        this.productCategoryId = productCategoryId;
-        this.productConditionId = productConditionId;
-        this.price = price;
-    }
+//    public PurchaseOffer(Long sellerId, Long customerId, Integer statusId, String productName,
+//                         Integer productCategoryId, Integer productConditionId, BigDecimal price) {
+//        this.sellerId = sellerId;
+//        this.customerId = customerId;
+//        this.statusId = statusId;
+//        this.productName = productName;
+//        this.productCategoryId = productCategoryId;
+//        this.productConditionId = productConditionId;
+//        this.price = price;
+//    }
 
-    public PurchaseOffer(Long id, Long sellerId, Long customerId, Integer statusId, String productName,
-                         Integer productCategoryId, Integer productConditionId, BigDecimal price, Boolean isDeleted) {
-        this.id = id;
-        this.sellerId = sellerId;
-        this.customerId = customerId;
-        this.statusId = statusId;
-        this.productName = productName;
-        this.productCategoryId = productCategoryId;
-        this.productConditionId = productConditionId;
-        this.price = price;
-        this.isDeleted = isDeleted;
-    }
-
-    public PurchaseOffer(Long id, Long sellerId, Integer statusId, String productName,
-                         Integer productCategoryId, Integer productConditionId, BigDecimal price, Boolean isDeleted) {
-        this.id = id;
-        this.sellerId = sellerId;
-        this.statusId = statusId;
-        this.productName = productName;
-        this.productCategoryId = productCategoryId;
-        this.productConditionId = productConditionId;
-        this.price = price;
-        this.isDeleted = isDeleted;
-    }
-
-    public PurchaseOffer(Long sellerId, Integer statusId, String productName,
-                         Integer productCategoryId, Integer productConditionId, BigDecimal price) {
-        this.sellerId = sellerId;
-        this.statusId = statusId;
-        this.productName = productName;
-        this.productCategoryId = productCategoryId;
-        this.productConditionId = productConditionId;
-        this.price = price;
-    }
+//    public PurchaseOffer(Long id, Long sellerId, Long customerId, Integer statusId, String productName,
+//                         Integer productCategoryId, Integer productConditionId, BigDecimal price, Boolean isDeleted) {
+//        this.id = id;
+//        this.sellerId = sellerId;
+//        this.customerId = customerId;
+//        this.statusId = statusId;
+//        this.productName = productName;
+//        this.productCategoryId = productCategoryId;
+//        this.productConditionId = productConditionId;
+//        this.price = price;
+//        this.isDeleted = isDeleted;
+//    }
+//
+//    public PurchaseOffer(Long id, Long sellerId, Integer statusId, String productName,
+//                         Integer productCategoryId, Integer productConditionId, BigDecimal price, Boolean isDeleted) {
+//        this.id = id;
+//        this.sellerId = sellerId;
+//        this.statusId = statusId;
+//        this.productName = productName;
+//        this.productCategoryId = productCategoryId;
+//        this.productConditionId = productConditionId;
+//        this.price = price;
+//        this.isDeleted = isDeleted;
+//    }
+//
+//    public PurchaseOffer(Long sellerId, Integer statusId, String productName,
+//                         Integer productCategoryId, Integer productConditionId, BigDecimal price) {
+//        this.sellerId = sellerId;
+//        this.statusId = statusId;
+//        this.productName = productName;
+//        this.productCategoryId = productCategoryId;
+//        this.productConditionId = productConditionId;
+//        this.price = price;
+//    }
 
     @Override
     public String toString() {
