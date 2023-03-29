@@ -1,0 +1,11 @@
+create procedure update_offer_price(offer_id bigint, new_price numeric)
+    language plpgsql
+as
+$$
+    BEGIN
+        update purchase_offers set price = new_price where id = offer_id;
+END;
+$$;
+
+alter procedure update_offer_price(bigint, numeric) owner to postgres;
+
